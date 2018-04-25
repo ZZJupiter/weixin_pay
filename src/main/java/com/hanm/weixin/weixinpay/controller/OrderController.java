@@ -1,9 +1,7 @@
 package com.hanm.weixin.weixinpay.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.hanm.weixin.weixinpay.controller.vo.OrderVO;
 import com.hanm.weixin.weixinpay.controller.vo.WxJsConfigVO;
-import com.hanm.weixin.weixinpay.model.TdOrder;
 import com.hanm.weixin.weixinpay.service.WeiChatPayService;
 import com.hanm.weixin.weixinpay.service.WeiChatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import weixin.popular.bean.paymch.Unifiedorder;
 import weixin.popular.bean.paymch.UnifiedorderResult;
-import weixin.popular.util.MapUtil;
 import weixin.popular.util.SignatureUtil;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author 张钟
@@ -38,7 +38,7 @@ public class OrderController {
 
     @RequestMapping(value = "/submit/pay.htm")
     public String submit(HttpSession session, Model model) {
-        TdOrder tdOrder = new TdOrder();
+
         String openId = String.valueOf(session.getAttribute("openId"));
         Unifiedorder unifiedorder = weiChatPayService.buildUnifiedorder(openId);
         UnifiedorderResult unifiedorderResult = weiChatPayService.payUnifiedorder(unifiedorder);
@@ -58,7 +58,7 @@ public class OrderController {
         orderParam.put("package", "prepay_id=" + unifiedorderResult.getPrepay_id());
         orderParam.put("signType", "MD5");
 
-        String sign = SignatureUtil.generateSign(orderParam,unifiedorder.getSign_type(),weiChatPayService.getWxPayKey());
+        String sign = SignatureUtil.generateSign(orderParam, unifiedorder.getSign_type(), weiChatPayService.getWxPayKey());
 //        String sign = generatePaySingnature(weiChatPayService.getAppId(), orderParam.get("nonceStr"), orderParam.get("package"), orderParam.get("timeStamp"));
         orderParam.put("paySign", sign);
 
