@@ -1,9 +1,7 @@
 package com.hanm.weixin.weixinpay.service;
 
 import com.alibaba.fastjson.JSON;
-import com.hanm.weixin.weixinpay.intergation.AccessTokenResult;
-import com.hanm.weixin.weixinpay.intergation.OpenIdResult;
-import com.hanm.weixin.weixinpay.intergation.WeiChatClient;
+import com.hanm.weixin.weixinpay.intergation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,18 +34,26 @@ public class WeiChatService {
      */
     public String queryOpenId(String jsCode) {
         String result = weiChatClient.queryOpenId(appId, secret, jsCode, authorization_code);
-        System.out.println("换取openid结果:"+result);
+        System.out.println("换取openid结果:" + result);
         OpenIdResult openIdResult = JSONObject.toJavaObject(JSONObject.parseObject(result),
                 OpenIdResult.class);
         return openIdResult.getOpenid();
     }
 
-    public AccessTokenResult queryAccessToken(String code){
-        String tempResult = weiChatClient.getAccessToken(appId,secret,code,authorization_code);
-        AccessTokenResult result = JSON.parseObject(tempResult,AccessTokenResult.class);
+    public AccessTokenResult queryAccessToken(String code) {
+        String tempResult = weiChatClient.getAccessToken(appId, secret, code, authorization_code);
+        AccessTokenResult result = JSON.parseObject(tempResult, AccessTokenResult.class);
         return result;
     }
 
+    public TicketResult queryTicket(String access_token) {
+        TicketResult ticketResult = JSON.parseObject(weiChatClient.getTicket(access_token, "jsapi"),
+                TicketResult.class);
+        return ticketResult;
+    }
 
+    public AccessTokenBaseResult queryAccessTokenBase() {
+        return JSON.parseObject(weiChatClient.getAccessTokenBase("client_credential", appId, secret), AccessTokenBaseResult.class);
+    }
 
 }

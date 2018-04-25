@@ -16,11 +16,9 @@
 </head>
 
 <body>
-openId:${openId}<br>
-accessToken:${accessToken}<br>
-ticket:${ticket}
+ticket:${ticket.ticket}<br>
 <br>
-<form action="/order/submit/pay.htm">
+<form action="/product/bill/">
     <button type="submit">提交订单</button>
 </form>
 </body>

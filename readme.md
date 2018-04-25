@@ -1,0 +1,1 @@
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4300ca382d532ceb&redirect_uri=http://weixin.exuekao.cn/index&response_type=code&scope=snsapi_base&state=123#wechat_redirect

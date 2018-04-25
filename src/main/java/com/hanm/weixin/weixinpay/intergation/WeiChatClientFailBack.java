@@ -25,6 +25,17 @@ public class WeiChatClientFailBack implements FallbackFactory<WeiChatClient> {
                 System.out.println("huoqu access token fail");
                 return null;
             }
+
+            @Override
+            public String getAccessTokenBase(String grant_type, String appid, String secret) {
+                System.out.println("huoqu access token fail");
+                return null;            }
+
+            @Override
+            public String getTicket(String access_token, String type) {
+                System.out.println("huoqu access token fail");
+                return null;
+            }
         };
     }
 }

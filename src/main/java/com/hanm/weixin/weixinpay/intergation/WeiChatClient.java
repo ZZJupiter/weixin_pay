@@ -20,16 +20,23 @@ public interface WeiChatClient {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/sns/jscode2session")
-    String queryOpenId(@RequestParam("appid") String appid,
-                       @RequestParam("secret") String secret,
+    String queryOpenId(@RequestParam("appid") String appid, @RequestParam("secret") String secret,
                        @RequestParam("js_code") String js_code,
                        @RequestParam("grant_type") String grant_type);
 
-    @RequestMapping(method = RequestMethod.GET,value = "sns/oauth2/access_token")
+    @RequestMapping(method = RequestMethod.GET, value = "/sns/oauth2/access_token")
     String getAccessToken(@RequestParam("appid") String appid,
-                          @RequestParam("secret") String secret,
-                          @RequestParam("code") String code,
+                          @RequestParam("secret") String secret, @RequestParam("code") String code,
                           @RequestParam("grant_type") String grant_type);
 
+    //grant_type=client_credential&appid=APPID&secret=APPSECRET
+    @RequestMapping(method = RequestMethod.GET, value = "/cgi-bin/token")
+    String getAccessTokenBase(@RequestParam("grant_type") String grant_type,
+                              @RequestParam("appid") String appid,
+                              @RequestParam("secret") String secret);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/cgi-bin/ticket/getticket")
+    String getTicket(@RequestParam("access_token") String access_token,
+                     @RequestParam("type") String type);
 
 }
